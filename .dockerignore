@@ -1,0 +1,16 @@
+.vector_cache/
+.pytest_cache/
+.vscode/
+.idea/
+venv/
+build/
+
+third_party/stanford-corenlp-full-2018-10-05/
+
+*.egg
+*.egg-info
+
+logdir/
+ie_dirs/
+dumps/
+att_dirs/

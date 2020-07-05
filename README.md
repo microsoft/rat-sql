@@ -1,5 +1,95 @@
+# RAT-SQL
 
-# Contributing
+This repository contains code for the ACL 2020 paper ["RAT-SQL: Relation-Aware Schema Encoding and Linking for Text-to-SQL Parsers"](https://arxiv.org/abs/1911.04942).
+
+If you use RAT-SQL in your work, please cite it as follows:
+``` bibtex
+@inproceedings{rat-sql,
+    title = "{RAT-SQL}: Relation-Aware Schema Encoding and Linking for Text-to-{SQL} Parsers",
+    author = "Wang, Bailin and Shin, Richard and Liu, Xiaodong and Polozov, Oleksandr and Richardson, Matthew",
+    booktitle = "Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics",
+    month = jul,
+    year = "2020",
+    address = "Online",
+    publisher = "Association for Computational Linguistics",
+    pages = "7567--7578"
+}
+```
+
+## Usage
+
+### Step 1: Download third-party datasets & dependencies
+
+Download the datasets: [Spider](https://yale-lily.github.io/spider) and [WikiSQL](https://github.com/salesforce/WikiSQL). Unpack them somewhere to create the following directory structure:
+```
+/path/to/data
+├── spider
+│   ├── README.txt
+│   ├── database
+│   │   └── ...
+│   ├── dev.json
+│   ├── dev_gold.sql
+│   ├── tables.json
+│   ├── train_gold.sql
+│   ├── train_others.json
+│   └── train_spider.json
+└── wikisql
+    ├── dev.db
+    ├── dev.jsonl
+    ├── dev.tables.jsonl
+    ├── test.db
+    ├── test.jsonl
+    ├── test.tables.jsonl
+    ├── train.db
+    ├── train.jsonl
+    └── train.tables.jsonl
+```
+
+To work with the WikiSQL dataset, clone its evaluation scripts:
+``` bash
+mkdir -p third_party
+git clone https://github.com/salesforce/WikiSQL third_party/wikisql
+```
+
+### Step 2: Build and run the Docker image
+
+We have provided a `Dockerfile` that sets up the entire environment for you.
+It assumes that you mount the datasets downloaded in Step 1 as a volume `/mnt/data` into a running image.
+Thus, the environment setup for RAT-SQL is:
+``` bash
+docker build -t ratsql .
+docker run --rm -v /path/to/data:/mnt/data -it ratsql
+```
+
+Within the image, add the location of WikiSQL scripts to PYTHONPATH so that their internal imports can be resolved by Python:
+``` bash
+export PYTHONPATH=/app/third_party/wikisql/:$PYTHONPATH
+``` 
+
+> If you prefer to set up and run the codebase without Docker, follow the steps in `Dockerfile` one by one.
+> Note that this repository requires Python 3.7 or higher and a JVM to run [Stanford CoreNLP](https://stanfordnlp.github.io/CoreNLP/).
+
+### Step 3: Run the experiments
+
+Every experiment has its own config file in `experiments`.
+The pipeline of working with any model version or dataset is: 
+
+``` bash
+python run.py preprocess experiment_config_file  # Step 3a: preprocess the data
+python run.py train experiment_config_file       # Step 3b: train a model
+python run.py eval experiment_config_file        # Step 3b: evaluate the results
+```
+
+Use the following experiment config files to reproduce our results:
+
+* Spider, GloVE version: `experiments/spider-glove-run.jsonnet`
+* Spider, BERT version (requires a GPU with at least 16GB memory): `experiments/spider-bert-run.jsonnet`
+* WikiSQL, GloVE version: `experiments/wikisql-glove-run.jsonnet`
+
+The exact model accuracy may vary by ±2% depending on a random seed. See [paper](https://arxiv.org/abs/1911.04942) for details.
+
+
+## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us

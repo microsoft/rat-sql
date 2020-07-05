@@ -1,0 +1,10 @@
+-- Derived from
+-- https://github.com/pcyin/tranX/blob/2e4585bb34e39e7b4f3557b9753d7a06ef9bb3d5/asdl/lang/sql/sql_asdl.txt
+
+module WikiSQL
+{
+    select = (agg_op agg, column col, cond* conds)
+    cond = (cmp_op op, column col, string value)
+    agg_op = NoAgg | Max | Min | Count | Sum | Avg
+    cmp_op = Equal | GreaterThan | LessThan | Other
+}
