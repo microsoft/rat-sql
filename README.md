@@ -24,7 +24,6 @@ Download the datasets: [Spider](https://yale-lily.github.io/spider) and [WikiSQL
 ```
 /path/to/data
 ├── spider
-│   ├── README.txt
 │   ├── database
 │   │   └── ...
 │   ├── dev.json
