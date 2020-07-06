@@ -20,7 +20,7 @@ If you use RAT-SQL in your work, please cite it as follows:
 
 ### Step 1: Download third-party datasets & dependencies
 
-Download the datasets: [Spider](https://yale-lily.github.io/spider) and [WikiSQL](https://github.com/salesforce/WikiSQL). Unpack them somewhere to create the following directory structure:
+Download the datasets: [Spider](https://yale-lily.github.io/spider) and [WikiSQL](https://github.com/salesforce/WikiSQL). Unpack them somewhere outside this project to create the following directory structure:
 ```
 /path/to/data
 ├── spider
@@ -44,7 +44,7 @@ Download the datasets: [Spider](https://yale-lily.github.io/spider) and [WikiSQL
     └── train.tables.jsonl
 ```
 
-To work with the WikiSQL dataset, clone its evaluation scripts:
+To work with the WikiSQL dataset, clone its evaluation scripts into this project:
 ``` bash
 mkdir -p third_party
 git clone https://github.com/salesforce/WikiSQL third_party/wikisql
