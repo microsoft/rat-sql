@@ -678,7 +678,7 @@ class SpiderEncoderBertPreproc(SpiderEncoderV2Preproc):
 
         if self.compute_cv_link:
             question_bert_tokens = Bertokens(question)
-            cv_link = question_bert_tokens.bert_cv_linking(item.schema)
+            cv_link = compute_cell_value_linking(question_bert_tokens.normalized_pieces, item.schema)
         else:
             cv_link = {"num_date_match": {}, "cell_match": {}}
 
