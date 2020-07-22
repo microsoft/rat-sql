@@ -3,7 +3,7 @@
     model_config: "configs/spider/nl2code-glove.jsonnet",
     model_config_args: {
         att: 0,
-        cv_link: false,
+        cv_link: true,
         clause_order: null, # strings like "SWGOIF"
         enumerate_order: false,
     },
