@@ -624,22 +624,6 @@ class Bertokens:
             new_sc_link[m_type] = _match
         return new_sc_link
 
-    def bert_cv_linking(self, schema):
-        question_tokens = self.normalized_pieces
-        cv_link = compute_cell_value_linking(question_tokens, schema)
-
-        new_cv_link = {}
-        for m_type in cv_link:
-            _match = {}
-            for ij_str in cv_link[m_type]:
-                q_id_str, col_tab_id_str = ij_str.split(",")
-                q_id, col_tab_id = int(q_id_str), int(col_tab_id_str)
-                real_q_id = self.idx_map[q_id]
-                _match[f"{real_q_id},{col_tab_id}"] = cv_link[m_type][ij_str]
-
-            new_cv_link[m_type] = _match
-        return new_cv_link
-
 
 class SpiderEncoderBertPreproc(SpiderEncoderV2Preproc):
 
