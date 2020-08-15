@@ -21,6 +21,7 @@ If you use RAT-SQL in your work, please cite it as follows:
 **2020-08-14:**
 - The Docker image now inherits from a CUDA-enabled base image.
 - Clarified memory and dataset requirements on the image.
+- Fixed the issue where token IDs were not converted to word-piece IDs for BERT value linking.  
 
 ## Usage
 

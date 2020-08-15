@@ -150,7 +150,7 @@ class SpiderDataset(torch.utils.data.Dataset):
         for db_id, schema in tqdm(self.schemas.items(), desc="DB connections"):
             sqlite_path = Path(db_path) / db_id / f"{db_id}.sqlite"
             source: sqlite3.Connection
-            with sqlite3.connect(sqlite_path) as source:
+            with sqlite3.connect(str(sqlite_path)) as source:
                 dest = sqlite3.connect(':memory:')
                 dest.row_factory = sqlite3.Row
                 source.backup(dest)
