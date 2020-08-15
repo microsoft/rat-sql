@@ -16,11 +16,18 @@ If you use RAT-SQL in your work, please cite it as follows:
 }
 ```
 
+## Changelog
+
+**2020-08-14:**
+- The Docker image now inherits from a CUDA-enabled base image.
+- Clarified memory and dataset requirements on the image.
+
 ## Usage
 
 ### Step 1: Download third-party datasets & dependencies
 
-Download the datasets: [Spider](https://yale-lily.github.io/spider) and [WikiSQL](https://github.com/salesforce/WikiSQL). Unpack them somewhere outside this project to create the following directory structure:
+Download the datasets: [Spider](https://yale-lily.github.io/spider) and [WikiSQL](https://github.com/salesforce/WikiSQL). In case of Spider, make sure to download the `08/03/2020` version or newer.
+Unpack the datasets somewhere outside this project to create the following directory structure:
 ```
 /path/to/data
 ├── spider
@@ -57,13 +64,11 @@ It assumes that you mount the datasets downloaded in Step 1 as a volume `/mnt/da
 Thus, the environment setup for RAT-SQL is:
 ``` bash
 docker build -t ratsql .
-docker run --rm -v /path/to/data:/mnt/data -it ratsql
+docker run --rm -m4g -v /path/to/data:/mnt/data -it ratsql
 ```
-
-Within the image, add the location of WikiSQL scripts to PYTHONPATH so that their internal imports can be resolved by Python:
-``` bash
-export PYTHONPATH=/app/third_party/wikisql/:$PYTHONPATH
-``` 
+Note that the image requires at least 4 GB of RAM to run preprocessing.
+By default, [Docker Desktop for Mac](https://hub.docker.com/editions/community/docker-ce-desktop-mac/) and [Docker Desktop for Windows](https://hub.docker.com/editions/community/docker-ce-desktop-windows) run containers with 2 GB of RAM.
+The `-m4g` switch overrides it; alternatively, you can increase the default limit in the Docker Desktop settings.
 
 > If you prefer to set up and run the codebase without Docker, follow the steps in `Dockerfile` one by one.
 > Note that this repository requires Python 3.7 or higher and a JVM to run [Stanford CoreNLP](https://stanfordnlp.github.io/CoreNLP/).
