@@ -47,7 +47,7 @@ class EvalConfig:
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('mode', help="preprocess/train/eval")
+    parser.add_argument('mode', help="preprocess/train/eval", choices=["preprocess", "train", "eval"])
     parser.add_argument('exp_config_file', help="jsonnet file for experiments")
     parser.add_argument('--model_config_args', help="optional overrides for model config args")
     parser.add_argument('--logdir', help="optional override for logdir")
