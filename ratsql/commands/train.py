@@ -138,6 +138,9 @@ class Trainer:
             {"model": self.model, "optimizer": optimizer}, keep_every_n=self.train_config.keep_every_n)
         last_step = saver.restore(modeldir, map_location=self.device)
 
+        #lr fix to not break scheduler when loading from checkpoint
+        lr_scheduler.param_groups = optimizer.param_groups
+
         if "pretrain" in config and last_step == 0:
             pretrain_config = config["pretrain"]
             _path = pretrain_config["pretrained_path"]
