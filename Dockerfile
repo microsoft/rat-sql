@@ -27,7 +27,7 @@ RUN python -c "from transformers import BertModel; BertModel.from_pretrained('be
 # Download & cache StanfordNLP
 RUN mkdir -p /app/third_party && \
     cd /app/third_party && \
-    curl https://nlp.stanford.edu/software/stanford-corenlp-full-2018-10-05.zip | jar xv
+    curl https://download.cs.stanford.edu/nlp/software/stanford-corenlp-full-2018-10-05.zip | jar xv
 
 # Now copy the rest of the app
 COPY . /app/
