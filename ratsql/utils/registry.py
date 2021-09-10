@@ -38,7 +38,6 @@ def construct(kind, config, unused_keys=(), **kwargs):
 
 def instantiate(invocable, config, unused_keys=(), **kwargs):
     merged = {**config, **kwargs}
-    signature = inspect.signature(invocable)
 
     if hasattr(invocable, '__init__'):
         # to avoid inspecting ctor of parent class (if exists) instead of the target class's ctor
