@@ -1,8 +1,8 @@
 import os
 import sys
 
-import corenlp
 import requests
+from stanfordnlp.server import CoreNLPClient
 
 
 class CoreNLP:
@@ -18,7 +18,7 @@ class CoreNLP:
 
                 Direct URL: http://nlp.stanford.edu/software/stanford-corenlp-full-2018-10-05.zip
                 Landing page: https://stanfordnlp.github.io/CoreNLP/''')
-        self.client = corenlp.CoreNLPClient()
+        self.client = CoreNLPClient()
 
     def __del__(self):
         self.client.stop()

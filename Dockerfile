@@ -18,7 +18,7 @@ RUN mkdir -p /usr/share/man/man1 && \
 COPY requirements.txt setup.py /app/
 WORKDIR /app
 RUN pip install --user -r requirements.txt --no-warn-script-location && \
-    pip install --user entmax && \
+    pip install --user entmax stanfordnlp && \
     python -c "import nltk; nltk.download('stopwords'); nltk.download('punkt')"
 
 # Cache the pretrained BERT model
