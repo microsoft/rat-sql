@@ -36,22 +36,29 @@ def construct(kind, config, unused_keys=(), **kwargs):
             **kwargs)
 
 
-def instantiate(callable, config, unused_keys=(), **kwargs):
+def instantiate(invocable, config, unused_keys=(), **kwargs):
     merged = {**config, **kwargs}
-    signature = inspect.signature(callable)
-    for name, param in signature.parameters.items():
+
+    if hasattr(invocable, '__init__'):
+        # to avoid inspecting ctor of parent class (if exists) instead of the target class's ctor
+        params = dict(inspect.signature(invocable.__init__).parameters)
+        params.pop('self', None)
+    else:
+        params = dict(inspect.signature(invocable).parameters)
+
+    for name, param in params.items():
         if param.kind in (inspect.Parameter.POSITIONAL_ONLY, inspect.Parameter.VAR_POSITIONAL):
             raise ValueError(f'Unsupported kind for param {name}: {param.kind}')
 
-    if any(param.kind == inspect.Parameter.VAR_KEYWORD for param in signature.parameters.values()):
-        return callable(**merged)
+    if any(param.kind == inspect.Parameter.VAR_KEYWORD for param in params.values()):
+        return invocable(**merged)
 
     missing = {}
     for key in list(merged.keys()):
-        if key not in signature.parameters:
+        if key not in params:
             if key not in unused_keys:
                 missing[key] = merged[key]
             merged.pop(key)
     if missing:
-        print(f'WARNING {callable}: superfluous {missing}', file=sys.stderr)
-    return callable(**merged)
+        print(f'WARNING {invocable}: superfluous {missing}', file=sys.stderr)
+    return invocable(**merged)
