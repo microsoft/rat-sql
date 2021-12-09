@@ -4,7 +4,6 @@ import os
 import time
 
 import bpemb
-import corenlp
 import torch
 import torchtext
 
@@ -50,26 +49,26 @@ class GloVe(Embedder):
         self.dim = self.glove.dim
         self.vectors = self.glove.vectors
         self.lemmatize = lemmatize
-        self.corenlp_annotators = ['tokenize', 'ssplit']
+        self.corenlp_annotators = ['tokenize']
         if lemmatize:
             self.corenlp_annotators.append('lemma')
 
     @functools.lru_cache(maxsize=1024)
     def tokenize(self, text):
-        ann = corenlp.annotate(text, self.corenlp_annotators)
+        annotation = corenlp.annotate(text, self.corenlp_annotators)
         if self.lemmatize:
-            return [tok.lemma.lower() for sent in ann.sentence for tok in sent.token]
+            return [token.to_dict()[0]["lemma"].lower() for sentence in annotation.sentences for token in sentence.tokens]
         else:
-            return [tok.word.lower() for sent in ann.sentence for tok in sent.token]
-    
+            return [token.to_dict()[0]["text"].lower() for sentence in annotation.sentences for token in sentence.tokens]
+
     @functools.lru_cache(maxsize=1024)
     def tokenize_for_copying(self, text):
-        ann = corenlp.annotate(text, self.corenlp_annotators)
-        text_for_copying = [tok.originalText.lower() for sent in ann.sentence for tok in sent.token]
+        annotation = corenlp.annotate(text, self.corenlp_annotators)
+        text_for_copying = [token.to_dict()[0]["text"].lower() for sentence in annotation.sentences for token in sentence.tokens]
         if self.lemmatize:
-            text = [tok.lemma.lower() for sent in ann.sentence for tok in sent.token]
+            text = [token.to_dict()[0]["lemma"].lower() for sentence in annotation.sentences for token in sentence.tokens]
         else:
-            text = [tok.word.lower() for sent in ann.sentence for tok in sent.token]
+            text = [token.to_dict()[0]["text"].lower() for sentence in annotation.sentences for token in sentence.tokens]
         return text, text_for_copying
 
     def untokenize(self, tokens):
