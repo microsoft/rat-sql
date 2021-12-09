@@ -8,7 +8,6 @@ RUN mkdir -p /usr/share/man/man1 && \
     build-essential \
     cifs-utils \
     curl \
-    default-jdk \
     dialog \
     dos2unix \
     git \
@@ -23,11 +22,6 @@ RUN pip install --user -r requirements.txt --no-warn-script-location && \
 
 # Cache the pretrained BERT model
 RUN python -c "from transformers import BertModel; BertModel.from_pretrained('bert-large-uncased-whole-word-masking')"
-
-# Download & cache StanfordNLP
-RUN mkdir -p /app/third_party && \
-    cd /app/third_party && \
-    curl https://download.cs.stanford.edu/nlp/software/stanford-corenlp-full-2018-10-05.zip | jar xv
 
 # Now copy the rest of the app
 COPY . /app/

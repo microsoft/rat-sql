@@ -18,6 +18,9 @@ If you use RAT-SQL in your work, please cite it as follows:
 
 ## Changelog
 
+**2021-12-09:**
+- Remove dependency on Java and Stanford CoreNLP (changed into Python native package 'Stanza').
+
 **2020-08-14:**
 - The Docker image now inherits from a CUDA-enabled base image.
 - Clarified memory and dataset requirements on the image.
@@ -72,7 +75,7 @@ By default, [Docker Desktop for Mac](https://hub.docker.com/editions/community/d
 The `-m4g` switch overrides it; alternatively, you can increase the default limit in the Docker Desktop settings.
 
 > If you prefer to set up and run the codebase without Docker, follow the steps in `Dockerfile` one by one.
-> Note that this repository requires Python 3.7 or higher and a JVM to run [Stanford CoreNLP](https://stanfordnlp.github.io/CoreNLP/).
+> Note that this repository requires Python 3.7 or higher.
 
 ### Step 3: Run the experiments
 
