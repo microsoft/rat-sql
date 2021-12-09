@@ -16,7 +16,7 @@ setup(
         'bpemb~=0.2.11',
         'cython~=0.29.1',
         # 'entmax~=1.0',
-        'jsonnet~=0.14.0',
+        'jsonnetbin~=0.16.0',
         'networkx~=2.2',
         'nltk~=3.4',
         'numpy~=1.16',
