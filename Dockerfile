@@ -3,6 +3,8 @@ FROM pytorch/pytorch:1.5-cuda10.1-cudnn7-devel
 ENV LC_ALL=C.UTF-8 \
     LANG=C.UTF-8
 
+RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/3bf863cc.pub
+
 RUN mkdir -p /usr/share/man/man1 && \
     apt-get update && apt-get install -y \
     build-essential \
